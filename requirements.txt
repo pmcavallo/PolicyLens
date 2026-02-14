@@ -1,0 +1,7 @@
+langchain
+chromadb
+anthropic
+pymupdf
+pydantic
+streamlit
+sentence-transformers

@@ -1,0 +1,566 @@
+{
+  "use_case_summary": "GPT-4 powered customer service chatbot deployed for retail banking customers to handle account inquiries and provide financial product recommendations. The system accesses customer PII and financial data, operates in a customer-facing context, and generates responses that may influence financial decisions across a large retail population.",
+  "risk_tier": "High",
+  "risk_tier_rationale": "This use case involves a generative AI system (GPT-4) in a customer-facing deployment that provides financial product recommendations—advice that could materially influence customers' financial decisions and affect their economic well-being. The system processes personally identifiable information and account data to respond to inquiries, creating data privacy and information security risks. The inherent confabulation risk of large language models presents significant reputational and regulatory risk if the chatbot generates inaccurate financial information or inappropriate recommendations. While human escalation mechanisms likely exist, the combination of GenAI technology, direct customer interaction, financial advisory elements, and scale of retail banking exposure elevates this to High tier under the Firm's tiering framework.",
+  "rmf_assessment": [
+    {
+      "function_name": "Govern",
+      "regulatory_findings": [
+        {
+          "requirement": "Organizational teams must document the risks and potential impacts of AI technology they design, develop, deploy, evaluate, and use, and communicate about impacts more broadly. This includes establishing terms of use and terms of service for GAI systems.",
+          "framework": "NIST AI 600-1",
+          "section_id": "GOVERN 4.2",
+          "section_title": "Organizational teams document the risks and potential impacts of the AI technology they design, develop, deploy,",
+          "applicability": "HIGH",
+          "recommendation": "Develop comprehensive risk documentation for the chatbot deployment that addresses confabulation risks, inappropriate financial advice generation, harmful content risks, and impacts on retail banking customers. Establish clear terms of use and service level expectations communicated to customers regarding chatbot capabilities and limitations.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Organizational practices must be in place to enable AI testing, identification of incidents, and information sharing. Establish minimum criteria for GAI system incident reporting including system ID, title, reporter, date of incident, description, impacts, and stakeholders impacted.",
+          "framework": "NIST AI 600-1",
+          "section_id": "GV-4.3",
+          "section_title": "Organizational practices are in place to enable AI testing, identification of incidents, and information sharing.",
+          "applicability": "HIGH",
+          "recommendation": "Implement structured incident reporting procedures specifically for the chatbot that capture confabulation events, inappropriate recommendation generation, customer complaints, data privacy breaches, and system malfunctions. Define clear escalation thresholds and notification protocols to the AI Risk Committee for material incidents.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Include relevant AI Actors in the GAI system risk identification process. Verify that downstream GAI system impacts (such as use of third-party plugins) are included in the impact documentation process.",
+          "framework": "NIST AI 600-1",
+          "section_id": "GV-4.2",
+          "section_title": "Organizational teams document the risks and potential impacts of the AI technology they design, develop, deploy,",
+          "applicability": "MEDIUM",
+          "recommendation": "Engage customer service representatives, compliance officers, customer experience teams, and retail banking leadership in the risk identification process. Document third-party dependencies including OpenAI's GPT-4 API, data integration vendors, and any retrieval-augmented generation components.",
+          "fhfa_overlay": null
+        }
+      ],
+      "internal_findings": [
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 2.1",
+          "current_coverage": "The AI Risk Committee serves as the primary governance body for AI/ML risk oversight, convening quarterly with representatives from ERM, IT, Legal, Compliance, and business lines. The Committee reviews Tier 1 models prior to deployment, monitors aggregate risk metrics, approves exceptions, and oversees remediation of validation findings.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 3.1",
+          "current_coverage": "Tier 1 (Critical) classification applies to models that directly influence customer-facing decisions, affect credit access, or have material financial or reputational impact. The chatbot would classify as Tier 1 based on customer-facing deployment and reputational risk.",
+          "adequacy": "ADEQUATE"
+        },
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 9",
+          "current_coverage": "Policy is grounded in SR 11-7 and OCC 2011-12 expectations. The Firm monitors evolving regulatory expectations regarding AI/ML governance and will update policy as necessary. ERM tracks regulatory developments.",
+          "adequacy": "PARTIAL"
+        }
+      ],
+      "gaps": [
+        {
+          "gap_category": "GenAI-Specific Incident Reporting",
+          "external_requirement": "Establish organizational practices with minimum criteria for GAI system incident reporting including system ID, title, reporter, system/source, date, description, impact, and stakeholders impacted (GV-4.3-002)",
+          "external_citation": "NIST AI 600-1, GV-4.3-002",
+          "internal_coverage": "General model risk committee oversight exists but no specific incident reporting framework for GAI systems with structured data elements for confabulation, harmful content generation, or customer impact tracking",
+          "internal_citation": "AI Governance Policy, Section 2.1",
+          "gap_severity": "HIGH",
+          "remediation": "Develop GAI-specific incident reporting template with required fields for confabulation events, inappropriate advice generation, customer complaints related to chatbot responses, and escalation protocols. Integrate with existing Model Risk Committee reporting cadence."
+        },
+        {
+          "gap_category": "GenAI Terms of Use and Service Boundaries",
+          "external_requirement": "Establish terms of use and terms of service for GAI systems addressing intellectual property, dangerous/violent/hateful content, and obscene/degrading/abusive content risks (GV-4.2-001)",
+          "external_citation": "NIST AI 600-1, GV-4.2-001",
+          "internal_coverage": "NOT ADDRESSED",
+          "internal_citation": "N/A",
+          "gap_severity": "HIGH",
+          "remediation": "Draft customer-facing terms of use for chatbot service that disclose AI-generated nature of responses, limitations on financial advice accuracy, prohibited uses, customer recourse mechanisms, and liability boundaries. Implement prominent disclaimers in chatbot interface."
+        },
+        {
+          "gap_category": "Third-Party GAI Dependency Documentation",
+          "external_requirement": "Verify that downstream GAI system impacts such as third-party plugins are included in impact documentation. Document third-party integrations and value chain risks (GV-4.2-003)",
+          "external_citation": "NIST AI 600-1, GV-4.2-003",
+          "internal_coverage": "General model documentation requirements exist but no specific requirements to document third-party GAI dependencies, API versioning risks, or OpenAI service level agreements",
+          "internal_citation": "AI Governance Policy, Section 4.2",
+          "gap_severity": "MEDIUM",
+          "remediation": "Enhance Model Development Memorandum template to include mandatory sections for third-party GAI providers, API dependencies, version control protocols, service level agreements, data sharing arrangements, and contingency plans for provider service disruptions."
+        }
+      ],
+      "coverage_score": 50.0
+    },
+    {
+      "function_name": "Map",
+      "regulatory_findings": [
+        {
+          "requirement": "Document intended purposes, context-specific laws, norms and expectations, and prospective settings for AI system deployment. Consider factors such as internal vs. external use, narrow vs. broad application scope, fine-tuning, and varieties of data sources including grounding and retrieval-augmented generation.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MAP 1.1",
+          "section_title": "Intended purposes, potentially beneficial uses, context specific laws, norms and expectations, and prospective settings in",
+          "applicability": "HIGH",
+          "recommendation": "Document the specific context of use for the chatbot including: retail banking customer service domain, account inquiry scope, product recommendation boundaries, expected vs. prohibited uses, relevant consumer protection regulations (UDAAP, fair lending), and customer expectations for accuracy and timeliness. Document data sources including customer account databases, product catalogs, and any RAG implementations.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Determine and document expected and acceptable GAI system context of use by assessing assumptions and limitations, direct value to organization, intended operational environment, potential positive and negative impacts to individuals and communities, and social norms and expectations.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MP-1.1-002",
+          "section_title": "Intended purposes, potentially beneficial uses, context specific laws, norms and expectations, and prospective settings in",
+          "applicability": "HIGH",
+          "recommendation": "Conduct a comprehensive context-of-use assessment engaging customer experience teams, compliance, and retail banking leadership to document: operational hours and customer volume expectations, accuracy requirements for account information, appropriateness boundaries for financial recommendations, potential for customer confusion between AI and human agents, and impacts on customer financial decisions and satisfaction.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Implement processes for responding to potential intellectual property infringement claims. Document training data curation policies to extent possible. Establish policies for collection, retention, and minimum quality of data considering risks of inappropriate CBRN information, illegal/dangerous content, offensive cyber capabilities, training data imbalances causing harmful biases, and PII leaks.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MP-4.1",
+          "section_title": "Approaches for mapping AI technology and legal risks of its components – including the use of third-party data or",
+          "applicability": "HIGH",
+          "recommendation": "Document GPT-4 training data limitations and OpenAI's data governance practices to extent disclosed. Establish policies for customer conversation data retention, PII handling in chat logs, and quality standards for data used in any fine-tuning. Implement IP infringement response procedures and assess risks of training data biases affecting product recommendations.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Conduct periodic monitoring of AI-generated content for privacy risks; address any possible instances of PII or sensitive data exposure.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MP-4.1-001",
+          "section_title": "Approaches for mapping AI technology and legal risks of its components – including the use of third-party data or",
+          "applicability": "HIGH",
+          "recommendation": "Implement ongoing content monitoring to detect inadvertent PII disclosure in chatbot responses, cross-customer data leakage, or exposure of sensitive account details. Establish automated scanning and manual review sampling protocols.",
+          "fhfa_overlay": null
+        }
+      ],
+      "internal_findings": [
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 4.1",
+          "current_coverage": "Each model shall have clearly defined approved use cases documented in model inventory, specifying target population, decision/process supported, environmental conditions for performance, and constraints on application. Use outside approved scope requires MRM review and approval.",
+          "adequacy": "ADEQUATE"
+        },
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 4.1",
+          "current_coverage": "Model developers must ensure training, validation, and testing datasets meet data quality standards for completeness, accuracy, timeliness, and relevance. Data quality issues must be documented with potential impact. External data sources require documentation of source, acquisition method, and usage restrictions.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 1",
+          "current_coverage": "Policy applies to AI/ML models used to inform or automate business decisions including customer segmentation and operational analytics. Exploratory research excluded until promoted to production.",
+          "adequacy": "ADEQUATE"
+        }
+      ],
+      "gaps": [
+        {
+          "gap_category": "PII Exposure Monitoring in Generated Content",
+          "external_requirement": "Conduct periodic monitoring of AI-generated content for privacy risks and address any instances of PII or sensitive data exposure (MP-4.1-001)",
+          "external_citation": "NIST AI 600-1, MP-4.1-001",
+          "internal_coverage": "NOT ADDRESSED",
+          "internal_citation": "N/A",
+          "gap_severity": "CRITICAL",
+          "remediation": "Implement automated scanning of chatbot responses for PII patterns (SSN, account numbers, personal addresses) and sensitive financial data. Establish sampling protocol for manual review of 2% of daily conversations. Create PII exposure incident response playbook with customer notification and remediation procedures."
+        },
+        {
+          "gap_category": "Training Data Provenance and IP Risk Management",
+          "external_requirement": "Document training data curation policies and implement processes for responding to intellectual property infringement claims. Establish policies for data collection, retention, and quality considering bias risks and PII leaks (MP-4.1-002, MP-4.1-004, MP-4.1-005)",
+          "external_citation": "NIST AI 600-1, MP-4.1-002, MP-4.1-004, MP-4.1-005",
+          "internal_coverage": "General data quality requirements exist but no specific policies for third-party LLM training data provenance, IP infringement response procedures, or GPT-4-specific data governance",
+          "internal_citation": "AI Governance Policy, Section 4.1",
+          "gap_severity": "HIGH",
+          "remediation": "Develop third-party GAI data governance addendum documenting: OpenAI's training data policies and limitations, IP infringement liability allocation with vendor, procedures for customer IP complaints, assessment of training data bias risks, and PII handling in fine-tuning datasets if applicable."
+        },
+        {
+          "gap_category": "GenAI Context-of-Use Documentation",
+          "external_requirement": "Document expected and acceptable GAI system context of use including assumptions/limitations, operational environment, potential positive and negative impacts to individuals and communities, and social norms (MP-1.1-002)",
+          "external_citation": "NIST AI 600-1, MP-1.1-002",
+          "internal_coverage": "Approved use case documentation exists but lacks GenAI-specific requirements for social norms assessment, customer expectation analysis, and community impact evaluation",
+          "internal_citation": "MRM Policy, Section 4.1",
+          "gap_severity": "MEDIUM",
+          "remediation": "Expand use case documentation template to include: customer expectation assessment for AI vs. human interaction, analysis of potential customer confusion or over-reliance, evaluation of impacts on vulnerable customer populations, and documentation of boundaries between informational responses and financial advice."
+        }
+      ],
+      "coverage_score": 62.5
+    },
+    {
+      "function_name": "Measure",
+      "regulatory_findings": [
+        {
+          "requirement": "Internal experts who did not serve as front-line developers and/or independent assessors must be involved in regular assessments. Engage in internal/external evaluations, GAI red-teaming, impact assessments, or structured human feedback exercises with representative AI Actors and populations associated with context of use.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MEASURE 1.3",
+          "section_title": "Internal experts who did not serve as front-line developers for the system and/or independent assessors are",
+          "applicability": "HIGH",
+          "recommendation": "Establish independent validation team separate from chatbot development that conducts pre-deployment testing including adversarial testing (red-teaming) for confabulation, inappropriate financial advice, jailbreak attempts, and bias. Engage retail banking subject matter experts, compliance officers, and representative customer groups in structured feedback exercises to assess chatbot appropriateness.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Define relevant groups of interest (demographic groups, subject matter experts, experience with GAI technology) within context of use as part of plans for gathering structured public feedback. Verify those conducting structured feedback exercises are not directly involved in system development.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MS-1.3-001",
+          "section_title": "Internal experts who did not serve as front-line developers for the system and/or independent assessors are",
+          "applicability": "MEDIUM",
+          "recommendation": "Identify customer demographic groups for testing including varying levels of financial literacy, age groups, digital literacy levels, and protected class representation. Conduct structured feedback sessions with these groups to assess comprehensibility of responses, appropriateness of recommendations, and potential for confusion or harm.",
+          "fhfa_overlay": null
+        }
+      ],
+      "internal_findings": [
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 2.1",
+          "current_coverage": "Model development requires clear articulation of business problem and conceptual framework. Methodology must be appropriate for nature and complexity of problem. Novel or complex methodologies require additional justification and enhanced validation scrutiny.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian AI Governance Policy",
+          "section_id": "Section 4.3",
+          "current_coverage": "All AI/ML models involving decisions affecting consumers or employees must undergo bias testing prior to production deployment. Testing evaluates outcomes across protected classes. Where disparate impact is identified, magnitude must be documented, causes investigated, and mitigation strategies evaluated. AI Risk Committee reviews all bias testing for Tier 1 models.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 2.3",
+          "current_coverage": "Models require Model Development Memorandum covering business context, data sources, methodology justification, variable selection, performance results, sensitivity analysis, limitations, and implementation specifications.",
+          "adequacy": "PARTIAL"
+        }
+      ],
+      "gaps": [
+        {
+          "gap_category": "GenAI Red-Teaming and Adversarial Testing",
+          "external_requirement": "Engage in GAI red-teaming, impact assessments, and structured human feedback exercises with representative AI Actors and populations. Verify testers are not directly involved in system development (MS-1.3-002, MS-1.3-003)",
+          "external_citation": "NIST AI 600-1, MS-1.3-002, MS-1.3-003",
+          "internal_coverage": "General validation requirements exist but no specific requirements for GenAI red-teaming, adversarial prompt testing, jailbreak attempts, or confabulation stress testing",
+          "internal_citation": "MRM Policy, Section 2.1",
+          "gap_severity": "CRITICAL",
+          "remediation": "Establish pre-deployment GAI red-teaming protocol including: adversarial prompt testing for financial misinformation generation, jailbreak attempts to bypass safety guardrails, stress testing for hallucination under ambiguous queries, bias testing across customer demographics, and inappropriate recommendation scenarios. Engage independent red team separate from development team."
+        },
+        {
+          "gap_category": "Confabulation and Hallucination Testing",
+          "external_requirement": "Implement active learning techniques to identify instances where model fails or produces unexpected outputs, particularly for confabulation risks (MG-4.1-004)",
+          "external_citation": "NIST AI 600-1, MG-4.1-004",
+          "internal_coverage": "NOT ADDRESSED",
+          "internal_citation": "N/A",
+          "gap_severity": "CRITICAL",
+          "remediation": "Develop confabulation testing framework including: factual accuracy benchmarking against known account information, testing with ambiguous customer queries, assessment of confidence calibration (does chatbot appropriately express uncertainty), evaluation of citation accuracy for product information, and measurement of hallucination rates under various prompt types."
+        },
+        {
+          "gap_category": "Structured Customer Feedback and Demographic Testing",
+          "external_requirement": "Define relevant groups of interest including demographic groups and subject matter experts within context of use for structured feedback. Test with representative populations (MS-1.3-001)",
+          "external_citation": "NIST AI 600-1, MS-1.3-001",
+          "internal_coverage": "Bias testing policy exists for protected classes but lacks structured customer feedback protocol for GenAI comprehensibility, appropriate advice interpretation, and customer confusion assessment across demographic groups",
+          "internal_citation": "AI Governance Policy, Section 4.3",
+          "gap_severity": "HIGH",
+          "remediation": "Develop structured pre-deployment customer testing protocol with representative demographic groups including varying financial literacy levels, age ranges, and digital experience. Assess comprehension of AI-generated responses, appropriateness of product recommendations, potential for customer confusion between AI and human advisors, and identification of vulnerable populations requiring additional safeguards."
+        }
+      ],
+      "coverage_score": 37.5
+    },
+    {
+      "function_name": "Manage",
+      "regulatory_findings": [
+        {
+          "requirement": "Post-deployment AI system monitoring plans must be implemented including mechanisms for capturing and evaluating input from users and other relevant AI Actors. Establish and maintain procedures for post-deployment monitoring of GAI systems, particularly for potential confabulation, CBRN, or cyber risks. Implement active learning to identify model failures.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MANAGE 4.1",
+          "section_title": "Post-deployment AI system monitoring plans are implemented, including mechanisms for capturing and evaluating",
+          "applicability": "HIGH",
+          "recommendation": "Implement continuous monitoring of chatbot conversations including: automated confabulation detection, customer sentiment analysis, escalation rate tracking, accuracy verification sampling, inappropriate recommendation flagging, and user feedback collection. Establish monthly reporting to AI Risk Committee on key performance and risk metrics.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Mechanisms must be in place and responsibilities assigned to supersede, disengage, or deactivate AI systems demonstrating performance inconsistent with intended use. Establish procedures for escalating GAI incidents and establish criteria warranting deactivation. Maintain communication plans to inform stakeholders of deactivation including reasons, workarounds, and alternative processes.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MANAGE 2.4",
+          "section_title": "Mechanisms are in place and applied, and responsibilities are assigned and understood, to supersede, disengage, or",
+          "applicability": "HIGH",
+          "recommendation": "Define specific criteria triggering chatbot deactivation (e.g., >5% confabulation rate, material financial advice error, data privacy breach, sustained negative customer feedback). Establish kill-switch procedures with designated authority to deactivate. Develop customer communication plan for service disruption including alternative service channels and status transparency.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Incidents and errors must be communicated to relevant AI Actors including affected communities. Establish and maintain policies to record and track GAI system reported errors, near-misses, and negative impacts. Conduct after-action assessments to verify incident response effectiveness.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MANAGE 4.3",
+          "section_title": "Incidents and errors are communicated to relevant AI Actors, including affected communities. Processes for tracking,",
+          "applicability": "HIGH",
+          "recommendation": "Implement incident tracking system for chatbot errors, customer complaints, confabulation events, and near-miss scenarios. Establish notification protocols to affected customers when material errors occur. Conduct post-incident reviews with root cause analysis and implement preventive measures. Report material incidents to regulators per applicable requirements.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Conduct regular monitoring of GAI systems and publish reports detailing performance, feedback received, and improvements made. Practice incident response plans for addressing inappropriate or harmful content generation and adapt processes based on findings.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MANAGE 4.2",
+          "section_title": "Measurable activities for continual improvements are integrated into AI system updates and include regular",
+          "applicability": "HIGH",
+          "recommendation": "Establish quarterly performance reporting including accuracy metrics, customer satisfaction scores, escalation rates, incident summaries, and bias monitoring results. Conduct regular incident response drills for harmful content scenarios. Document continuous improvement actions and effectiveness measures.",
+          "fhfa_overlay": null
+        },
+        {
+          "requirement": "Procedures must be followed to respond to and recover from previously unknown risks when identified. Develop and update GAI incident response and recovery plans accounting for newly encountered uses, unanticipated uses, value chain considerations, and downstream actor communication.",
+          "framework": "NIST AI 600-1",
+          "section_id": "MANAGE 2.3",
+          "section_title": "Procedures are followed to respond to and recover from a previously unknown risk when it is identified.",
+          "applicability": "MEDIUM",
+          "recommendation": "Develop adaptive risk response procedures for emerging chatbot risks not anticipated during design. Establish process for rapid policy updates when novel misuse patterns emerge. Maintain communication protocols with OpenAI for upstream risk notifications and coordinate responses across value chain.",
+          "fhfa_overlay": null
+        }
+      ],
+      "internal_findings": [
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 4.3",
+          "current_coverage": "Business users who override model recommendations must document rationale. Override rates monitored and reported to Model Risk Committee quarterly. Sustained high override rates trigger review of model's fitness for purpose.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 5.1",
+          "current_coverage": "All production models undergo formal annual performance review assessing discriminatory power, calibration accuracy, and stability. Performance metrics compared against established thresholds and prior periods to identify trends.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 5.3",
+          "current_coverage": "Off-cycle model reviews triggered by: material change in economic/market environment, significant portfolio composition shift, material implementation error, sustained performance threshold breach, material regulatory change, or organizational restructuring.",
+          "adequacy": "PARTIAL"
+        },
+        {
+          "policy_reference": "Meridian MRM Policy",
+          "section_id": "Section 6.1",
+          "current_coverage": "Model Risk Committee reviews validation results, performance monitoring, approves new models and changes, reviews exceptions, assesses aggregate risk metrics, and discusses emerging risks. Convenes monthly.",
+          "adequacy": "ADEQUATE"
+        }
+      ],
+      "gaps": [
+        {
+          "gap_category": "Continuous Confabulation Monitoring",
+          "external_requirement": "Establish procedures for post-deployment monitoring of GAI systems, particularly for potential confabulation. Implement active learning techniques to identify instances where model fails or produces unexpected outputs (MG-4.1-002, MG-4.1-004)",
+          "external_citation": "NIST AI 600-1, MG-4.1-002, MG-4.1-004",
+          "internal_coverage": "Annual performance reviews exist but lack continuous real-time monitoring for LLM-specific risks such as confabulation, hallucination rates, factual accuracy drift, or inappropriate advice generation",
+          "internal_citation": "MRM Policy, Section 5.1",
+          "gap_severity": "CRITICAL",
+          "remediation": "Implement real-time confabulation monitoring system including: automated fact-checking against authoritative product databases, hallucination detection algorithms, customer complaint analysis for accuracy issues, spot-checking of 5% of daily conversations by human reviewers, and weekly confabulation rate reporting. Establish alert thresholds triggering immediate investigation."
+        },
+        {
+          "gap_category": "GAI System Kill-Switch and Deactivation Criteria",
+          "external_requirement": "Establish and regularly review specific criteria warranting deactivation of GAI systems. Establish procedures for escalating incidents when deactivation criteria met. Maintain communication plans for stakeholder notification including reasons, workarounds, and alternative processes (MG-2.4-001, MG-2.4-002, MG-2.4-004)",
+          "external_citation": "NIST AI 600-1, MG-2.4-001, MG-2.4-002, MG-2.4-004",
+          "internal_coverage": "General trigger-based review criteria exist but no specific deactivation thresholds for GenAI systems, kill-switch procedures, or stakeholder communication plans for chatbot service interruption",
+          "internal_citation": "MRM Policy, Section 5.3",
+          "gap_severity": "HIGH",
+          "remediation": "Define quantitative deactivation criteria including: confabulation rate >3%, customer complaint rate >10%, material financial advice error confirmed, PII exposure incident, or regulatory directive. Establish kill-switch authority with Chief Risk Officer and Chief Information Officer. Develop customer communication templates for service degradation or suspension including alternative service channels and estimated restoration timelines."
+        },
+        {
+          "gap_category": "GenAI Incident Tracking and After-Action Assessment",
+          "external_requirement": "Establish policies to record and track GAI system reported errors, near-misses, and negative impacts. Conduct after-action assessments to verify incident response effectiveness including communication to relevant AI Actors and legal/regulatory bodies (MG-4.3-001, MG-4.3-002, MG-4.3-003)",
+          "external_citation": "NIST AI 600-1, MG-4.3-001, MG-4.3-002, MG-4.3-003",
+          "internal_coverage": "General Model Risk Committee oversight exists but no specific incident tracking system for GenAI errors, near-miss documentation protocol, or structured after-action review process for confabulation events",
+          "internal_citation": "MRM Policy, Section 6.1",
+          "gap_severity": "HIGH",
+          "remediation": "Implement GenAI incident tracking system capturing: confabulation events, inappropriate recommendation instances, customer complaints, near-miss scenarios where human intervention prevented harm, and systemic error patterns. Establish 48-hour after-action review requirement for all material incidents including root cause analysis, customer impact assessment, remediation actions, and preventive measures."
+        },
+        {
+          "gap_category": "Customer Escalation and Override Mechanisms",
+          "external_requirement": "Post-deployment monitoring plans must include mechanisms for appeal and override, capturing and evaluating input from users and relevant AI Actors (MANAGE 4.1)",
+          "external_citation": "NIST AI 100-1, MANAGE 4.1",
+          "internal_coverage": "Override tracking exists for model recommendations but lacks specific protocols for customer escalation from chatbot to human agents, customer appeal mechanisms for dissatisfaction with AI responses, or systematic capture of escalation reasons",
+          "internal_citation": "MRM Policy, Section 4.3",
+          "gap_severity": "MEDIUM",
+          "remediation": "Implement seamless escalation protocol allowing customers to immediately reach human agents with single command. Track escalation rates, reasons, and outcomes. Establish monthly analysis of escalation patterns to identify chatbot performance gaps. Create customer appeal mechanism for dissatisfaction with product recommendations including human review and response within 24 hours."
+        },
+        {
+          "gap_category": "Sentiment Analysis and User Feedback Loops",
+          "external_requirement": "Evaluate use of sentiment analysis to gauge user sentiment regarding GAI content performance and impact, working with AI Actors experienced in user research (MG-4.1-003)",
+          "external_citation": "NIST AI 600-1, MG-4.1-003",
+          "internal_coverage": "NOT ADDRESSED",
+          "internal_citation": "N/A",
+          "gap_severity": "MEDIUM",
+          "remediation": "Implement sentiment analysis on customer chat transcripts to detect frustration, confusion, or dissatisfaction. Establish post-interaction satisfaction surveys for 20% of sessions. Create feedback loop where negative sentiment patterns trigger conversation review and chatbot improvement initiatives."
+        }
+      ],
+      "coverage_score": 50.0
+    }
+  ],
+  "sr_11_7_alignment": [
+    {
+      "requirement": "SR 11-7 requires effective challenge of model development through independent model validation performed by a unit that does not perform model development or implementation and does not report to the business line. Validation should include evaluation of conceptual soundness, ongoing monitoring, and outcomes analysis.",
+      "framework": "SR 11-7",
+      "section_id": "SR 11-7",
+      "section_title": "Supervisory Guidance on Model Risk Management",
+      "applicability": "HIGH",
+      "recommendation": "Ensure independent validation team reviews chatbot implementation including: conceptual soundness of using GPT-4 for financial service inquiries, appropriateness of retrieval-augmented generation approach if implemented, effectiveness of guardrails and safety mechanisms, and accuracy of product recommendation logic. Validation must be performed by personnel independent of chatbot development team and retail banking business line.",
+      "fhfa_overlay": null
+    },
+    {
+      "requirement": "SR 11-7 requires ongoing monitoring to evaluate whether model continues to perform in line with design objectives and business uses. Monitoring should include process verification, benchmarking, and outcomes analysis comparing model outputs to actual outcomes when available.",
+      "framework": "SR 11-7",
+      "section_id": "SR 11-7",
+      "section_title": "Supervisory Guidance on Model Risk Management",
+      "applicability": "HIGH",
+      "recommendation": "Implement continuous monitoring program including: daily accuracy spot-checks comparing chatbot account information responses against actual customer data, weekly confabulation rate calculation, monthly outcomes analysis of product recommendations (did recommended products align with customer needs and regulatory suitability), and quarterly assessment of whether chatbot performance remains aligned with design objectives of efficient, accurate customer service.",
+      "fhfa_overlay": null
+    },
+    {
+      "requirement": "SR 11-7 requires comprehensive documentation including the model purpose and design, detailed description of modeling components and methodology, data sources and data quality assessment, testing results and known limitations, and ongoing performance monitoring results.",
+      "framework": "SR 11-7",
+      "section_id": "SR 11-7",
+      "section_title": "Supervisory Guidance on Model Risk Management",
+      "applicability": "HIGH",
+      "recommendation": "Develop comprehensive Model Development Memorandum for chatbot covering: business purpose and approved use cases, GPT-4 architecture and capabilities, integration architecture including account data access and product catalog connections, pre-deployment testing results including red-teaming findings, known limitations such as confabulation risk and knowledge cutoff dates, guardrail implementations, and planned monitoring approach. Update documentation to reflect prompt engineering changes, retrieval system modifications, or model version updates.",
+      "fhfa_overlay": null
+    },
+    {
+      "requirement": "SR 11-7 emphasizes that model risk increases with greater model complexity, higher uncertainty about inputs and assumptions, broader use, and larger potential impact. Board and senior management should establish risk appetite for model risk and governance structures proportionate to risk.",
+      "framework": "SR 11-7",
+      "section_id": "SR 11-7",
+      "section_title": "Supervisory Guidance on Model Risk Management",
+      "applicability": "HIGH",
+      "recommendation": "Given the High tier classification and significant model risk stemming from GPT-4 complexity, uncertainty around LLM behavior, broad retail customer population exposure, and potential reputational impact, escalate chatbot governance to AI Risk Committee with quarterly review cadence. Establish quantitative risk appetite thresholds including maximum acceptable confabulation rate (e.g., <2%), minimum accuracy requirements (e.g., >95% for account inquiries), and customer satisfaction minimums (e.g., >80% positive ratings).",
+      "fhfa_overlay": null
+    }
+  ],
+  "gap_summary": [
+    {
+      "gap_category": "PII Exposure Monitoring in Generated Content",
+      "external_requirement": "Conduct periodic monitoring of AI-generated content for privacy risks and address any instances of PII or sensitive data exposure (MP-4.1-001)",
+      "external_citation": "NIST AI 600-1, MP-4.1-001",
+      "internal_coverage": "NOT ADDRESSED",
+      "internal_citation": "N/A",
+      "gap_severity": "CRITICAL",
+      "remediation": "Implement automated scanning of chatbot responses for PII patterns (SSN, account numbers, personal addresses) and sensitive financial data. Establish sampling protocol for manual review of 2% of daily conversations. Create PII exposure incident response playbook with customer notification and remediation procedures."
+    },
+    {
+      "gap_category": "GenAI Red-Teaming and Adversarial Testing",
+      "external_requirement": "Engage in GAI red-teaming, impact assessments, and structured human feedback exercises with representative AI Actors and populations. Verify testers are not directly involved in system development (MS-1.3-002, MS-1.3-003)",
+      "external_citation": "NIST AI 600-1, MS-1.3-002, MS-1.3-003",
+      "internal_coverage": "General validation requirements exist but no specific requirements for GenAI red-teaming, adversarial prompt testing, jailbreak attempts, or confabulation stress testing",
+      "internal_citation": "MRM Policy, Section 2.1",
+      "gap_severity": "CRITICAL",
+      "remediation": "Establish pre-deployment GAI red-teaming protocol including: adversarial prompt testing for financial misinformation generation, jailbreak attempts to bypass safety guardrails, stress testing for hallucination under ambiguous queries, bias testing across customer demographics, and inappropriate recommendation scenarios. Engage independent red team separate from development team."
+    },
+    {
+      "gap_category": "Confabulation and Hallucination Testing",
+      "external_requirement": "Implement active learning techniques to identify instances where model fails or produces unexpected outputs, particularly for confabulation risks (MG-4.1-004)",
+      "external_citation": "NIST AI 600-1, MG-4.1-004",
+      "internal_coverage": "NOT ADDRESSED",
+      "internal_citation": "N/A",
+      "gap_severity": "CRITICAL",
+      "remediation": "Develop confabulation testing framework including: factual accuracy benchmarking against known account information, testing with ambiguous customer queries, assessment of confidence calibration (does chatbot appropriately express uncertainty), evaluation of citation accuracy for product information, and measurement of hallucination rates under various prompt types."
+    },
+    {
+      "gap_category": "Continuous Confabulation Monitoring",
+      "external_requirement": "Establish procedures for post-deployment monitoring of GAI systems, particularly for potential confabulation. Implement active learning techniques to identify instances where model fails or produces unexpected outputs (MG-4.1-002, MG-4.1-004)",
+      "external_citation": "NIST AI 600-1, MG-4.1-002, MG-4.1-004",
+      "internal_coverage": "Annual performance reviews exist but lack continuous real-time monitoring for LLM-specific risks such as confabulation, hallucination rates, factual accuracy drift, or inappropriate advice generation",
+      "internal_citation": "MRM Policy, Section 5.1",
+      "gap_severity": "CRITICAL",
+      "remediation": "Implement real-time confabulation monitoring system including: automated fact-checking against authoritative product databases, hallucination detection algorithms, customer complaint analysis for accuracy issues, spot-checking of 5% of daily conversations by human reviewers, and weekly confabulation rate reporting. Establish alert thresholds triggering immediate investigation."
+    },
+    {
+      "gap_category": "GenAI-Specific Incident Reporting",
+      "external_requirement": "Establish organizational practices with minimum criteria for GAI system incident reporting including system ID, title, reporter, system/source, date, description, impact, and stakeholders impacted (GV-4.3-002)",
+      "external_citation": "NIST AI 600-1, GV-4.3-002",
+      "internal_coverage": "General model risk committee oversight exists but no specific incident reporting framework for GAI systems with structured data elements for confabulation, harmful content generation, or customer impact tracking",
+      "internal_citation": "AI Governance Policy, Section 2.1",
+      "gap_severity": "HIGH",
+      "remediation": "Develop GAI-specific incident reporting template with required fields for confabulation events, inappropriate advice generation, customer complaints related to chatbot responses, and escalation protocols. Integrate with existing Model Risk Committee reporting cadence."
+    },
+    {
+      "gap_category": "GenAI Terms of Use and Service Boundaries",
+      "external_requirement": "Establish terms of use and terms of service for GAI systems addressing intellectual property, dangerous/violent/hateful content, and obscene/degrading/abusive content risks (GV-4.2-001)",
+      "external_citation": "NIST AI 600-1, GV-4.2-001",
+      "internal_coverage": "NOT ADDRESSED",
+      "internal_citation": "N/A",
+      "gap_severity": "HIGH",
+      "remediation": "Draft customer-facing terms of use for chatbot service that disclose AI-generated nature of responses, limitations on financial advice accuracy, prohibited uses, customer recourse mechanisms, and liability boundaries. Implement prominent disclaimers in chatbot interface."
+    },
+    {
+      "gap_category": "Training Data Provenance and IP Risk Management",
+      "external_requirement": "Document training data curation policies and implement processes for responding to intellectual property infringement claims. Establish policies for data collection, retention, and quality considering bias risks and PII leaks (MP-4.1-002, MP-4.1-004, MP-4.1-005)",
+      "external_citation": "NIST AI 600-1, MP-4.1-002, MP-4.1-004, MP-4.1-005",
+      "internal_coverage": "General data quality requirements exist but no specific policies for third-party LLM training data provenance, IP infringement response procedures, or GPT-4-specific data governance",
+      "internal_citation": "AI Governance Policy, Section 4.1",
+      "gap_severity": "HIGH",
+      "remediation": "Develop third-party GAI data governance addendum documenting: OpenAI's training data policies and limitations, IP infringement liability allocation with vendor, procedures for customer IP complaints, assessment of training data bias risks, and PII handling in fine-tuning datasets if applicable."
+    },
+    {
+      "gap_category": "Structured Customer Feedback and Demographic Testing",
+      "external_requirement": "Define relevant groups of interest including demographic groups and subject matter experts within context of use for structured feedback. Test with representative populations (MS-1.3-001)",
+      "external_citation": "NIST AI 600-1, MS-1.3-001",
+      "internal_coverage": "Bias testing policy exists for protected classes but lacks structured customer feedback protocol for GenAI comprehensibility, appropriate advice interpretation, and customer confusion assessment across demographic groups",
+      "internal_citation": "AI Governance Policy, Section 4.3",
+      "gap_severity": "HIGH",
+      "remediation": "Develop structured pre-deployment customer testing protocol with representative demographic groups including varying financial literacy levels, age ranges, and digital experience. Assess comprehension of AI-generated responses, appropriateness of product recommendations, potential for customer confusion between AI and human advisors, and identification of vulnerable populations requiring additional safeguards."
+    }
+  ],
+  "key_risks": [
+    "Confabulation Risk: GPT-4 may generate plausible but factually incorrect information about account details, product features, or financial advice, leading to customer harm and regulatory exposure under UDAAP",
+    "Data Privacy Exposure: Chatbot may inadvertently disclose PII or sensitive account information in responses, either through cross-customer data leakage or inappropriate information retrieval",
+    "Inappropriate Financial Advice: Product recommendations may not align with customer suitability requirements, customer financial situations, or regulatory fair lending expectations, creating compliance risk",
+    "Reputational Damage: Public incidents of chatbot providing harmful advice, offensive content, or discriminatory responses could severely damage brand reputation and customer trust",
+    "Third-Party Dependency: Reliance on OpenAI's GPT-4 API creates operational risk from service disruptions, model version changes, or vendor policy modifications outside Firm's control",
+    "Bias and Discrimination: Training data biases in GPT-4 or in fine-tuning datasets may result in disparate treatment of protected classes in product recommendations or service quality",
+    "Customer Confusion: Customers may not understand they are interacting with AI, may over-rely on chatbot advice, or may not know how to escalate to human agents when needed",
+    "Prompt Injection Attacks: Adversarial users may attempt to manipulate chatbot behavior through jailbreak prompts to extract sensitive information, generate harmful content, or bypass safety controls"
+  ],
+  "recommended_controls": [
+    "Implement real-time automated fact-checking layer that validates chatbot responses about account information and product details against authoritative databases before presenting to customer",
+    "Deploy PII scanning and data loss prevention tools to automatically detect and block responses containing sensitive information patterns including SSNs, account numbers, and cross-customer data",
+    "Establish human-in-the-loop review for all product recommendations with clear escalation pathway and mandatory human approval for recommendations above specified dollar thresholds",
+    "Implement prominent and persistent disclosure that customer is interacting with AI system, with single-click escalation button to reach human agent available in every conversation",
+    "Deploy adversarial prompt detection to identify and block jailbreak attempts, with automatic escalation to security team and temporary rate limiting for suspected malicious users",
+    "Establish 5% daily manual review sampling of conversations by trained quality assurance team to identify confabulation, bias, inappropriateness, and emerging risk patterns",
+    "Configure response grounding exclusively to verified internal knowledge bases (product catalogs, policy documents) with citations required for all factual claims",
+    "Implement conversation length limits and complexity detection to automatically escalate conversations exceeding chatbot capabilities to human agents",
+    "Deploy sentiment analysis to detect customer frustration in real-time and proactively offer human escalation before negative experience escalates",
+    "Establish quantitative performance monitoring dashboard with daily confabulation rate, accuracy metrics, escalation rates, customer satisfaction scores, and bias indicators tracked against defined thresholds",
+    "Create kill-switch capability with defined authority allowing immediate chatbot deactivation if critical thresholds breached, with automatic customer communication and fallback to traditional service channels",
+    "Implement comprehensive audit logging of all conversations, model responses, data accessed, and human interventions to support incident investigation and regulatory examination"
+  ],
+  "external_citations": [
+    "NIST AI 100-1, MANAGE 4.1",
+    "NIST AI 600-1, GOVERN 4.2",
+    "NIST AI 600-1, GV-4.2",
+    "NIST AI 600-1, GV-4.2-001",
+    "NIST AI 600-1, GV-4.2-003",
+    "NIST AI 600-1, GV-4.3",
+    "NIST AI 600-1, GV-4.3-002",
+    "NIST AI 600-1, MANAGE 2.3",
+    "NIST AI 600-1, MANAGE 2.4",
+    "NIST AI 600-1, MANAGE 4.1",
+    "NIST AI 600-1, MANAGE 4.2",
+    "NIST AI 600-1, MANAGE 4.3",
+    "NIST AI 600-1, MAP 1.1",
+    "NIST AI 600-1, MEASURE 1.3",
+    "NIST AI 600-1, MG-2.4-001, MG-2.4-002, MG-2.4-004",
+    "NIST AI 600-1, MG-4.1-002, MG-4.1-004",
+    "NIST AI 600-1, MG-4.1-003",
+    "NIST AI 600-1, MG-4.1-004",
+    "NIST AI 600-1, MG-4.3-001, MG-4.3-002, MG-4.3-003",
+    "NIST AI 600-1, MP-1.1-002",
+    "NIST AI 600-1, MP-4.1",
+    "NIST AI 600-1, MP-4.1-001",
+    "NIST AI 600-1, MP-4.1-002, MP-4.1-004, MP-4.1-005",
+    "NIST AI 600-1, MS-1.3-001",
+    "NIST AI 600-1, MS-1.3-002, MS-1.3-003",
+    "SR 11-7, SR 11-7"
+  ],
+  "internal_citations": [
+    "AI Governance Policy, Section 2.1",
+    "AI Governance Policy, Section 4.1",
+    "AI Governance Policy, Section 4.2",
+    "AI Governance Policy, Section 4.3",
+    "MRM Policy, Section 2.1",
+    "MRM Policy, Section 4.1",
+    "MRM Policy, Section 4.3",
+    "MRM Policy, Section 5.1",
+    "MRM Policy, Section 5.3",
+    "MRM Policy, Section 6.1",
+    "Meridian AI Governance Policy, Section 1",
+    "Meridian AI Governance Policy, Section 2.1",
+    "Meridian AI Governance Policy, Section 3.1",
+    "Meridian AI Governance Policy, Section 4.1",
+    "Meridian AI Governance Policy, Section 4.3",
+    "Meridian AI Governance Policy, Section 9",
+    "Meridian MRM Policy, Section 2.1",
+    "Meridian MRM Policy, Section 2.3",
+    "Meridian MRM Policy, Section 4.1",
+    "Meridian MRM Policy, Section 4.3",
+    "Meridian MRM Policy, Section 5.1",
+    "Meridian MRM Policy, Section 5.3",
+    "Meridian MRM Policy, Section 6.1"
+  ]
+}
