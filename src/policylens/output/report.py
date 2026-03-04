@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from src.assessment.schemas import (
+from src.policylens.assessment.schemas import (
     GapFinding,
     GapSeverity,
     RiskAssessment,

@@ -20,11 +20,12 @@ from pathlib import Path
 import anthropic
 from dotenv import load_dotenv
 
-from src.assessment.classifier import classify_risk_tier, ClassificationResult
-from src.assessment.gap_analyzer import enhance_assessment
-from src.assessment.prompts import SYSTEM_PROMPT, build_assessment_prompt
-from src.assessment.schemas import RiskAssessment
-from src.ingestion.vectorstore import get_client, query_both_collections, DEFAULT_PERSIST_DIR
+from src.policylens.assessment.classifier import classify_risk_tier, ClassificationResult
+from src.policylens.assessment.gap_analyzer import enhance_assessment
+from src.policylens.assessment.prompts import SYSTEM_PROMPT, build_assessment_prompt
+from src.policylens.assessment.schemas import RiskAssessment
+from src.policylens.ingestion.vectorstore import get_client, query_both_collections, DEFAULT_PERSIST_DIR
+from src.policylens.core.auditor import audit_execution
 
 
 def _get_api_key() -> str:
@@ -53,6 +54,7 @@ def _retrieval_results_to_chunk_dicts(results: dict) -> list[dict]:
     return chunks
 
 
+@audit_execution
 def run_assessment(
     use_case: str,
     persist_dir: Path = DEFAULT_PERSIST_DIR,
