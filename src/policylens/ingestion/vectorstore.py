@@ -16,7 +16,7 @@ from typing import Optional
 import chromadb
 from chromadb.config import Settings
 
-from src.ingestion.chunker import Chunk
+from src.policylens.ingestion.chunker import Chunk
 
 
 # Collection names matching the two-layer architecture

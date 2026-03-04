@@ -63,3 +63,6 @@ PROJECT_PLAN.md
 
 # Regulatory PDFs (large binaries, download instructions in README)
 data/frameworks/*.pdf
+
+# Audit logs
+logs/

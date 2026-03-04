@@ -9,7 +9,7 @@ Enhances the LLM's gap findings by:
 
 from __future__ import annotations
 
-from src.assessment.schemas import (
+from src.policylens.assessment.schemas import (
     GapFinding,
     GapSeverity,
     RiskAssessment,
