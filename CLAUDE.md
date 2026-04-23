@@ -20,14 +20,14 @@ AI Risk Assessment Engine for financial services. Ingests 4 regulatory framework
 - `src/ingestion/pdf_parser.py` - 6 document-specific parsers with regex patterns per framework
 - `src/ingestion/chunker.py` - Section-level chunking with context prefixes (not fixed-window)
 - `src/ingestion/vectorstore.py` - Dual ChromaDB collections: `regulatory_frameworks`, `internal_policies`
-- `src/ingestion/ingest.py` - CLI: `py -m src.ingestion.ingest [--reset] [--stats]`
+- `src/ingestion/ingest.py` - CLI: `py -m src.policylens.ingestion.ingest [--reset] [--stats]`
 - `src/assessment/schemas.py` - Pydantic models: RiskAssessment, RMFFunctionAssessment, GapFinding, etc.
 - `src/assessment/classifier.py` - Risk tier classifier (Critical/High/Medium/Low)
 - `src/assessment/prompts.py` - System prompt + assessment prompt template
-- `src/assessment/engine.py` - Pipeline orchestrator. CLI: `py -m src.assessment.engine`
+- `src/assessment/engine.py` - Pipeline orchestrator. CLI: `py -m src.policylens.assessment.engine`
 - `src/assessment/gap_analyzer.py` - Post-processing: coverage scores, gap sorting, citation collection
 - `src/output/report.py` - Executive report generator (Risk Committee format)
-- `src/ui/app.py` - Streamlit UI. Run: `py -m streamlit run src/ui/app.py`
+- `src/ui/app.py` - Streamlit UI. Run: `py -m streamlit run src/policylens/ui/app.py`
 - `src/ui/demo_cases.py` - 4 pre-built demo use cases
 - `PROJECT_PLAN.md` - Full architecture spec, intentional gaps list, positioning guidance
 
@@ -37,13 +37,13 @@ AI Risk Assessment Engine for financial services. Ingests 4 regulatory framework
 .venv\Scripts\activate
 
 # Ingest documents (only needed once, or after --reset)
-py -m src.ingestion.ingest
+py -m src.policylens.ingestion.ingest
 
 # Run assessment from CLI
-py -m src.assessment.engine
+py -m src.policylens.assessment.engine
 
 # Launch Streamlit UI
-py -m streamlit run src/ui/app.py
+py -m streamlit run src/policylens/ui/app.py
 ```
 
 ## Data Layout

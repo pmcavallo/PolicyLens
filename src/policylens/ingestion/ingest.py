@@ -4,9 +4,9 @@ Parses all PDFs, chunks them with section-aware metadata, and indexes
 into ChromaDB with two collections (regulatory_frameworks, internal_policies).
 
 Usage:
-    py -m src.ingestion.ingest              # Full ingestion
-    py -m src.ingestion.ingest --reset       # Clear and re-ingest
-    py -m src.ingestion.ingest --stats       # Show collection stats
+    py -m src.policylens.ingestion.ingest              # Full ingestion
+    py -m src.policylens.ingestion.ingest --reset       # Clear and re-ingest
+    py -m src.policylens.ingestion.ingest --stats       # Show collection stats
 """
 
 from __future__ import annotations
@@ -15,9 +15,9 @@ import argparse
 import sys
 from pathlib import Path
 
-from src.ingestion.pdf_parser import parse_all_pdfs
-from src.ingestion.chunker import chunk_all_documents
-from src.ingestion.vectorstore import (
+from src.policylens.ingestion.pdf_parser import parse_all_pdfs
+from src.policylens.ingestion.chunker import chunk_all_documents
+from src.policylens.ingestion.vectorstore import (
     get_client,
     index_chunks,
     get_collection_stats,

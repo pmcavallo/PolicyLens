@@ -142,7 +142,7 @@ The four regulatory PDFs are not included in the repository due to file size. Do
 Parse PDFs, chunk with section metadata, and index into ChromaDB:
 
 ```bash
-py -m src.ingestion.ingest
+py -m src.policylens.ingestion.ingest
 ```
 
 Options: `--reset` (clear and rebuild), `--stats` (show collection statistics)
@@ -150,7 +150,7 @@ Options: `--reset` (clear and rebuild), `--stats` (show collection statistics)
 ### 2. Run Assessment (CLI)
 
 ```bash
-py -m src.assessment.engine
+py -m src.policylens.assessment.engine
 ```
 
 Runs the credit decisioning demo case and prints a summary to the console.
@@ -158,7 +158,7 @@ Runs the credit decisioning demo case and prints a summary to the console.
 ### 3. Launch UI
 
 ```bash
-streamlit run src/ui/app.py
+streamlit run src/policylens/ui/app.py
 ```
 
 The dashboard provides:

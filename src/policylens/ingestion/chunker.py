@@ -13,7 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Optional
 
-from src.ingestion.pdf_parser import ParsedDocument, ParsedSection
+from src.policylens.ingestion.pdf_parser import ParsedDocument, ParsedSection
 
 
 # Default max chunk size in characters (~500 tokens at ~4 chars/token = 2000 chars)

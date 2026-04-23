@@ -15,14 +15,14 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-from src.assessment.engine import run_assessment
-from src.assessment.schemas import (
+from src.policylens.assessment.engine import run_assessment
+from src.policylens.assessment.schemas import (
     GapSeverity,
     RiskAssessment,
     RMFFunctionAssessment,
 )
-from src.output.report import generate_report
-from src.ui.demo_cases import DEMO_CASES, DEMO_LABELS
+from src.policylens.output.report import generate_report
+from src.policylens.ui.demo_cases import DEMO_CASES, DEMO_LABELS
 
 
 # ---------------------------------------------------------------------------
